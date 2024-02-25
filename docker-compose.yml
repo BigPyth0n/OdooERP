@@ -1,0 +1,36 @@
+# یه پوشه در مسیر ذکر شده درست کردم
+# /root/Odoo/BackUp
+
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: masteruserDB
+      POSTGRES_PASSWORD: Xman151360
+      POSTGRES_DB: postgres
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  odoo:
+    image: odoo
+    ports:
+      - "8069:8069"
+    restart: always
+    depends_on:
+      - db
+    environment:
+      POSTGRES_USER: masteruserDB
+      POSTGRES_PASSWORD: Xman151360
+      POSTGRES_DB: postgres
+    volumes:
+      - odoo_data:/var/lib/odoo
+      - ./config:/etc/odoo
+      - ./addons:/mnt/extra-addons
+      - /root/Odoo/BackUp:/var/lib/odoo/sessions
+
+volumes:
+  pg_data:
+  odoo_data:
